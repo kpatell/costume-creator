@@ -113,10 +113,7 @@
                     colorOption.classList.add('color-option');
                     colorOption.style.backgroundColor = color;
                     colorOption.addEventListener('click', function () {
-                        colorPicker.value = color;
-                        for (let i = 0; i < svgElements.length; i++) {
-                            svgElements[i].style.fill = color;
-                        }
+                        colorPicker.value = color; // Set the selected color of the color picker
                     });
                     colorBank.appendChild(colorOption);
                 }
