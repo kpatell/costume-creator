@@ -5,21 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SVG Costume Editor</title>
 <style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
     #svg-container {
-        width: 100%;
-        height: auto;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #color-picker-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #color-picker,
+    #color-hex {
+        margin: 10px;
+    }
+
+    #color-bank {
+        display: flex;
+        justify-content: center;
         margin-top: 20px;
+    }
+
+    .color-option {
+        width: 30px;
+        height: 30px;
+        margin: 0 5px;
+        border-radius: 50%;
+        cursor: pointer;
     }
 </style>
 </head>
 <body>
-    <input type="file" id="file-input">
-    <div id="svg-container"></div>
-    <div id="color-picker-container">
-        <input type="color" id="color-picker">
+    <div id="container">
+        <input type="file" id="file-input">
+        <div id="svg-container"></div>
+        <div id="color-picker-container">
+            <input type="color" id="color-picker">
+            <input type="text" id="color-hex" placeholder="Hex code">
+            <button id="add-color">Add Color</button>
+        </div>
+        <div id="color-bank"></div>
     </div>
 
     <script>
@@ -41,14 +81,45 @@
             const svgContainer = document.getElementById('svg-container');
             svgContainer.innerHTML = svgString;
 
+            const svg = svgContainer.querySelector('svg');
+
+            svg.style.maxWidth = '100%';
+            svg.style.maxHeight = '100%';
+
             const colorPicker = document.getElementById('color-picker');
-            const svgElements = svgContainer.getElementsByTagName('path'); // Adjust if other SVG elements are used
+            const colorHex = document.getElementById('color-hex');
+            const colorBank = document.getElementById('color-bank');
+            const svgElements = svgContainer.querySelectorAll('path'); // Adjust if other SVG elements are used
 
             for (let i = 0; i < svgElements.length; i++) {
                 svgElements[i].addEventListener('click', function () {
                     this.style.fill = colorPicker.value;
                 });
             }
+
+            colorPicker.addEventListener('change', function () {
+                colorHex.value = this.value;
+            });
+
+            colorHex.addEventListener('change', function () {
+                colorPicker.value = this.value;
+            });
+
+            document.getElementById('add-color').addEventListener('click', function () {
+                const color = colorHex.value;
+                if (color) {
+                    const colorOption = document.createElement('div');
+                    colorOption.classList.add('color-option');
+                    colorOption.style.backgroundColor = color;
+                    colorOption.addEventListener('click', function () {
+                        colorPicker.value = color;
+                        for (let i = 0; i < svgElements.length; i++) {
+                            svgElements[i].style.fill = color;
+                        }
+                    });
+                    colorBank.appendChild(colorOption);
+                }
+            });
         }
     </script>
 </body>
