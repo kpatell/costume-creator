@@ -22,6 +22,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden; /* Added overflow property */
     }
 
     #color-picker-container {
@@ -119,6 +120,52 @@
                     });
                     colorBank.appendChild(colorOption);
                 }
+            });
+
+            // Zooming functionality
+            let zoomLevel = 1;
+            svgContainer.addEventListener('wheel', function (event) {
+                event.preventDefault();
+                const zoomSpeed = 0.05; // Reduced zoom speed by half
+                zoomLevel += event.deltaY * -zoomSpeed;
+                zoomLevel = Math.max(0.1, zoomLevel);
+                svg.style.transform = `scale(${zoomLevel})`;
+
+                // Update scroll position based on zoom level
+                const scrollLeft = svgContainer.scrollLeft;
+                const scrollTop = svgContainer.scrollTop;
+                const scrollWidth = svgContainer.scrollWidth;
+                const scrollHeight = svgContainer.scrollHeight;
+                const centerX = scrollLeft + svgContainer.offsetWidth / 2;
+                const centerY = scrollTop + svgContainer.offsetHeight / 2;
+                const newScrollLeft = centerX - svgContainer.offsetWidth / (2 * zoomLevel);
+                const newScrollTop = centerY - svgContainer.offsetHeight / (2 * zoomLevel) * (scrollHeight / scrollWidth); // Updated calculation for newScrollTop
+                svgContainer.scrollLeft = newScrollLeft;
+                svgContainer.scrollTop = newScrollTop;
+            });
+
+            // Panning functionality
+            let isPanning = false;
+            let startCoords = { x: 0, y: 0 };
+            svgContainer.addEventListener('mousedown', function (event) {
+                isPanning = true;
+                startCoords = { x: event.clientX, y: event.clientY };
+                svgContainer.style.cursor = 'grabbing';
+            });
+
+            svgContainer.addEventListener('mousemove', function (event) {
+                if (isPanning) {
+                    const deltaX = event.clientX - startCoords.x;
+                    const deltaY = event.clientY - startCoords.y;
+                    svgContainer.scrollLeft -= deltaX;
+                    svgContainer.scrollTop -= deltaY;
+                    startCoords = { x: event.clientX, y: event.clientY };
+                }
+            });
+
+            svgContainer.addEventListener('mouseup', function () {
+                isPanning = false;
+                svgContainer.style.cursor = 'grab';
             });
         }
     </script>
