@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Costume Editor</title>
+<style>
+    #svg-container {
+        width: 100%;
+        height: auto;
+    }
+
+    #color-picker-container {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+    <input type="file" id="file-input">
+    <div id="svg-container"></div>
+    <div id="color-picker-container">
+        <input type="color" id="color-picker">
+    </div>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const svgString = e.target.result;
+                renderSVG(svgString);
+            };
+
+            reader.readAsText(file);
+        }
+
+        function renderSVG(svgString) {
+            const svgContainer = document.getElementById('svg-container');
+            svgContainer.innerHTML = svgString;
+
+            const colorPicker = document.getElementById('color-picker');
+            const svgElements = svgContainer.getElementsByTagName('path'); // Adjust if other SVG elements are used
+
+            for (let i = 0; i < svgElements.length; i++) {
+                svgElements[i].addEventListener('click', function () {
+                    this.style.fill = colorPicker.value;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
