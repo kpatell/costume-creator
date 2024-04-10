@@ -1,0 +1,109 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif; /* Changed font to Arial with fallback to sans-serif */
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-left: 20px;
+}
+
+#svg-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto; /* Changed overflow property to auto */
+}
+
+#color-picker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#color-picker,
+#color-hex,
+#file-input {
+    margin: 10px;
+}
+
+#color-bank {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#color-bank-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.color-option {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Button styling */
+input[type="text"] {
+    height: 10px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Adjust as necessary */
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    margin-right: 10px; /* Adds space between the input and the button */
+}
+
+#style-selector {
+    padding: 5px;
+    font-family: Arial, sans-serif;
+    height: 40px;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    height: 40px; /* Match the height of your input */
+    line-height: 20px; /* Adjust line-height for vertical centering if needed */
+    margin-right: 10px; /* Adds space between the buttons */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}
+
+#add-color {
+    margin-left: 0;
+}
+
+#file-input {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+#file-input:hover {
+    background-color: #0056b3;
+}
+
+#color-bank {
+    padding-bottom: 30px;
+}

@@ -5,109 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SVG Costume Editor</title> <!-- Added site title -->
 <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="stylesheet" href="./styles.css">
 <link rel="icon" type="image/png" href="./assets/favicon.png"> <!-- Added site icon -->
-<style>
-    body, html {
-        height: 100%;
-        margin: 0;
-        overflow: hidden;
-        font-family: Arial, sans-serif; /* Changed font to Arial with fallback to sans-serif */
-    }
-
-    #container {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
-    #svg-container {
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: auto; /* Changed overflow property to auto */
-    }
-
-    #color-picker-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #color-picker,
-    #color-hex,
-    #file-input {
-        margin: 10px;
-    }
-
-    #color-bank {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .color-option {
-        width: 30px;
-        height: 30px;
-        margin: 0 5px;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    /* Button styling */
-    button {
-        padding: 10px 20px;
-        background-color: #007bff; /* Changed button background color to blue */
-        color: #fff; /* Changed button text color to white */
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-family: Arial, sans-serif; /* Changed font to Arial with fallback to sans-serif */
-        transition: background-color 0.3s ease; /* Added transition effect */
-    }
-
-    button:hover {
-        background-color: #0056b3; /* Darker blue color on hover */
-    }
-
-    #add-color {
-        margin-left: 0;
-    }
-
-    #file-input {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 10px 20px;
-        font-family: Arial, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
-    #file-input:hover {
-        background-color: #0056b3;
-    }
-</style>
 </head>
 <body>
     <div id="container">
-        <input type="file" id="file-input">
+        <input type="file" id="file-input" style="min-height:20px;">
+
+        <div>
+            <input type="text" id="style-name" placeholder="Style Name">
+            <button id="save-style">Save Style</button>
+            <select id="style-selector">
+                <option>Select a style</option>
+            </select>
+            <button id="apply-style" style="margin-left: 10px;">Apply Style</button>
+        </div>
         <div id="svg-container"></div>
         <div id="color-picker-container">
             <input type="color" id="color-picker">
             <input type="text" id="color-hex" placeholder="Hex code">
             <button id="add-color">Add Color</button>
         </div>
+        <h2 id="color-bank-header">Color Bank</h2>
         <div id="color-bank">
-            <h2>Color Bank</h2> <!-- Added title for color bank -->
         </div>
     </div>
 
     <script>
         document.getElementById('file-input').addEventListener('change', handleFileSelect);
+        document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('save-style').addEventListener('click', saveStyle);
+        document.getElementById('apply-style').addEventListener('click', applyStyle);
+
+        let savedStyles = {}; // Object to store styles by name
+
+        function saveStyle() {
+            const styleName = document.getElementById('style-name').value;
+            if (!styleName) {
+                alert("Please enter a style name.");
+                return;
+            }
+            if (savedStyles[styleName]) {
+                alert("Style name already exists.");
+                return;
+            }
+
+            const svgElements = document.querySelectorAll('#svg-container path');
+            const styleColors = Array.from(svgElements).map((elem, index) => ({
+                index: index, // Assuming using index as identifier; replace as needed
+                color: elem.style.fill
+            }));
+
+            savedStyles[styleName] = styleColors;
+            updateStyleSelector(styleName);
+            clearStyleInputs();
+            alert("Style saved!");
+        }
+
+        function updateStyleSelector(newStyle) {
+            const selector = document.getElementById('style-selector');
+            const option = document.createElement('option');
+            option.value = newStyle;
+            option.textContent = newStyle;
+            selector.appendChild(option);
+        }
+
+        function clearStyleInputs() {
+            document.getElementById('style-name').value = '';
+            document.getElementById('style-selector').value = 'Select a style';
+        }
+
+        function applyStyle() {
+            const selectedStyle = document.getElementById('style-selector').value;
+            if (selectedStyle === "Select a style" || !savedStyles[selectedStyle]) {
+                alert("Please select a valid style.");
+                return;
+            }
+
+            const styleColors = savedStyles[selectedStyle];
+            const svgElements = document.querySelectorAll('#svg-container path');
+            styleColors.forEach(style => {
+                // Apply color to the correct element; adjust logic for element identification as needed
+                if (svgElements[style.index]) {
+                    svgElements[style.index].style.fill = style.color;
+                }
+            });
+        }
+    });
+
 
         function handleFileSelect(event) {
             const file = event.target.files[0];
