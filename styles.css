@@ -7,11 +7,37 @@ html {
 	/* Changed font to Arial with fallback to sans-serif */
 }
 
+#site-title {
+	background-color: #003057;
+    color: white;
+	font-style: italic;
+    font-family: Arial, sans-serif;
+    height: 15%;
+	font-size: 5vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    padding-left: 2%;
+	margin: 0.5%;
+}
+
+#authors {
+	background-color: #B3A369;
+    color: black;
+    font-family: Arial, sans-serif;
+    height: 5%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    padding-left: 2%;
+	margin: 0.5%;
+}
+
 #container {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	padding-left: 20px;
+	margin: 0.5%;
 }
 
 #svg-container {
@@ -77,9 +103,9 @@ input[type="text"] {
 
 button {
 	padding: 10px 20px;
-	background-color: #007bff;
+	background-color: #003057;
 	/* Blue background color */
-	color: #fff;
+	color: #ccc;
 	/* White text color */
 	border: none;
 	border-radius: 5px;
@@ -94,7 +120,7 @@ button {
 }
 
 button:hover {
-	background-color: #0056b3;
+	background-color: #002340;
 	/* Darker blue color on hover */
 }
 
@@ -103,8 +129,8 @@ button:hover {
 }
 
 #file-input {
-    background-color: #007bff;
-	color: #fff;
+    background-color: #003057;
+	color: #ccc;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -114,7 +140,7 @@ button:hover {
 }
 
 #file-input:hover {
-	background-color: #0056b3;
+	background-color: #002340;
 }
 
 #color-bank {
