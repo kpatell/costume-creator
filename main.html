@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SVG Costume Editor</title>
+<title>SVG Costume Editor</title> <!-- Added site title -->
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="icon" type="image/png" href="./assets/favicon.png"> <!-- Added site icon -->
 <style>
     body, html {
         height: 100%;
         margin: 0;
         overflow: hidden;
+        font-family: Arial, sans-serif; /* Changed font to Arial with fallback to sans-serif */
     }
 
     #container {
@@ -22,7 +25,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: hidden; /* Added overflow property */
+        overflow: auto; /* Changed overflow property to auto */
     }
 
     #color-picker-container {
@@ -32,13 +35,16 @@
     }
 
     #color-picker,
-    #color-hex {
+    #color-hex,
+    #file-input {
         margin: 10px;
     }
 
     #color-bank {
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
         margin-top: 20px;
     }
 
@@ -48,6 +54,41 @@
         margin: 0 5px;
         border-radius: 50%;
         cursor: pointer;
+    }
+
+    /* Button styling */
+    button {
+        padding: 10px 20px;
+        background-color: #007bff; /* Changed button background color to blue */
+        color: #fff; /* Changed button text color to white */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: Arial, sans-serif; /* Changed font to Arial with fallback to sans-serif */
+        transition: background-color 0.3s ease; /* Added transition effect */
+    }
+
+    button:hover {
+        background-color: #0056b3; /* Darker blue color on hover */
+    }
+
+    #add-color {
+        margin-left: 0;
+    }
+
+    #file-input {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 10px 20px;
+        font-family: Arial, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    #file-input:hover {
+        background-color: #0056b3;
     }
 </style>
 </head>
@@ -60,7 +101,9 @@
             <input type="text" id="color-hex" placeholder="Hex code">
             <button id="add-color">Add Color</button>
         </div>
-        <div id="color-bank"></div>
+        <div id="color-bank">
+            <h2>Color Bank</h2> <!-- Added title for color bank -->
+        </div>
     </div>
 
     <script>
@@ -84,8 +127,9 @@
 
             const svg = svgContainer.querySelector('svg');
 
-            svg.style.maxWidth = '100%';
-            svg.style.maxHeight = '100%';
+            // Set initial SVG dimensions
+            svg.style.width = '100%';
+            svg.style.height = '100%';
 
             const colorPicker = document.getElementById('color-picker');
             const colorHex = document.getElementById('color-hex');
@@ -109,6 +153,7 @@
             document.getElementById('add-color').addEventListener('click', function () {
                 const color = colorHex.value;
                 if (color) {
+                    // Remove previous event listener to prevent adding multiple listeners
                     const colorOption = document.createElement('div');
                     colorOption.classList.add('color-option');
                     colorOption.style.backgroundColor = color;
@@ -123,20 +168,21 @@
             let zoomLevel = 1;
             svgContainer.addEventListener('wheel', function (event) {
                 event.preventDefault();
-                const zoomSpeed = 0.05; // Reduced zoom speed by half
+                const zoomSpeed = 0.05;
                 zoomLevel += event.deltaY * -zoomSpeed;
                 zoomLevel = Math.max(0.1, zoomLevel);
-                svg.style.transform = `scale(${zoomLevel})`;
+
+                // Update SVG dimensions
+                svg.style.width = `${100 * zoomLevel}%`;
+                svg.style.height = `${100 * zoomLevel}%`;
 
                 // Update scroll position based on zoom level
                 const scrollLeft = svgContainer.scrollLeft;
                 const scrollTop = svgContainer.scrollTop;
-                const scrollWidth = svgContainer.scrollWidth;
-                const scrollHeight = svgContainer.scrollHeight;
                 const centerX = scrollLeft + svgContainer.offsetWidth / 2;
                 const centerY = scrollTop + svgContainer.offsetHeight / 2;
-                const newScrollLeft = centerX - svgContainer.offsetWidth / (2 * zoomLevel);
-                const newScrollTop = centerY - svgContainer.offsetHeight / (2 * zoomLevel) * (scrollHeight / scrollWidth); // Updated calculation for newScrollTop
+                const newScrollLeft = (centerX * zoomLevel - svgContainer.offsetWidth / 2) / zoomLevel;
+                const newScrollTop = (centerY * zoomLevel - svgContainer.offsetHeight / 2) / zoomLevel;
                 svgContainer.scrollLeft = newScrollLeft;
                 svgContainer.scrollTop = newScrollTop;
             });
@@ -160,7 +206,7 @@
                 }
             });
 
-            svgContainer.addEventListener('mouseup', function () {
+            document.addEventListener('mouseup', function () { // Changed to listen on document
                 isPanning = false;
                 svgContainer.style.cursor = 'grab';
             });
