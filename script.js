@@ -174,24 +174,32 @@ document.getElementById('export-png').addEventListener('click', function() {
     const ctx = canvas.getContext('2d');
     const img = new Image();
     
-    // Handle possible CORS issues when loading SVG data as image source
-    img.crossOrigin = 'anonymous'; 
-
     img.onload = function() {
+        // Set canvas size to match SVG dimensions
         canvas.width = img.width;
         canvas.height = img.height;
+
+        // Fill the canvas with white background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the SVG image onto the canvas
         ctx.drawImage(img, 0, 0);
         
-        // Use canvas to download the image as PNG
+        // Extract the image as a Data URL in PNG format
         const imageData = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
         
-        // Create a link and trigger download
+        // Create a link for downloading the image
         const link = document.createElement('a');
         link.download = 'exported-image.png';
         link.href = imageData;
         link.click();
     };
+
+    // Handle possible CORS issues if the SVG uses external resources
+    img.crossOrigin = 'anonymous';
     
+    // Convert the SVG data into a Blob and then to a URL for the Image object
     const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
     const DOMURL = window.URL || window.webkitURL || window;
     const url = DOMURL.createObjectURL(svgBlob);
