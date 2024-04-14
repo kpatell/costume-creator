@@ -164,3 +164,36 @@ function renderSVG(svgString) {
         svgContainer.style.cursor = 'grab';
     });
 }
+
+
+document.getElementById('export-png').addEventListener('click', function() {
+    const svgElement = document.getElementById('svg-container').querySelector('svg');
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    
+    // Handle possible CORS issues when loading SVG data as image source
+    img.crossOrigin = 'anonymous'; 
+
+    img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        
+        // Use canvas to download the image as PNG
+        const imageData = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+        
+        // Create a link and trigger download
+        const link = document.createElement('a');
+        link.download = 'exported-image.png';
+        link.href = imageData;
+        link.click();
+    };
+    
+    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+    const DOMURL = window.URL || window.webkitURL || window;
+    const url = DOMURL.createObjectURL(svgBlob);
+    img.src = url;
+});
