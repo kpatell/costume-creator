@@ -14,4 +14,4 @@ This is a basic Scalable Vector Graphic (SVG) color editor for a costume file so
 1. To prepare costume designs, the first step is to download the [costumeSampleLandscapeBasic.svg](/costumes/costumeSampleLandscapeBasic.svg) template in this repository
 2. Open this template SVG in a vector graphics editor such as Inkscape or Adobe Illustrator
 3. Add any shapes to create the designs you want. A stroke width of 1 px is what is used in the template. Make sure all of the shapes have some fill color or else it is not possible to edit the fill color of the shape in the website. To help learn how to create SVG designs, [Logos By Nick](https://www.youtube.com/@LogosByNick/videos) has many helpful tutorials on how to use the Inkscape software.
-4. Save the SVG to your machine and then follow the [instructions above](https://github.com/shaanpatel00/costume-creator/edit/main/README.md#how-to-use-this-tool).
+4. Save the SVG to your machine and then follow the [instructions above](https://github.com/shaanpatel00/costume-creator#how-to-use-this-tool).
