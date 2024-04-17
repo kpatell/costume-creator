@@ -1,0 +1,154 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    background-color: #003057;
+    margin: 0.5%;
+    height: 10%;
+    justify-content: space-between;
+}
+
+#site-logo {
+    width: 7%;
+    padding: 1%;
+}
+
+#site-title {
+    color: white;
+    font-style: italic;
+    font-family: Arial, sans-serif;
+    font-size: 4vw;
+    padding-left: 2%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#authors {
+    background-color: #B3A369;
+    color: black;
+    font-family: Arial, sans-serif;
+    height: 3%;
+    font-size: 1vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 2%;
+    margin: 0.5%;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0.5%;
+}
+
+#svg-container {
+    flex-grow: 1;
+    display: flex;
+    overflow: auto;
+    position: relative;
+    justify-content: center;
+    height: 50vh;
+}
+
+#color-picker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#color-picker,
+#color-hex,
+#file-input {
+    margin: 10px;
+}
+
+#color-bank {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+#color-bank-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    height: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    margin-right: 10px;
+}
+
+#style-selector {
+    padding: 5px;
+    font-family: Arial, sans-serif;
+    height: 40px;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #003057;
+    color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    height: 40px;
+    line-height: 20px;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #002340;
+}
+
+#add-color {
+    margin-left: 0;
+}
+
+#file-input {
+    background-color: #003057;
+    color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+#file-input:hover {
+    background-color: #002340;
+}
+
+#color-bank {
+    padding-bottom: 10%;
+}
+
+.grabbing {
+    cursor: grabbing;
+}
